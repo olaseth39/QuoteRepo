@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    {% from '_formhelpers.html' import render_field %}
+
+    <br>
+    <div class="row col-md-12">
+        {% if not session['logged_in'] or session.confirmed %}
+        <div class="col-md-5">
+            <pre><b>Kindly read through !!!</b></pre>
+
+            <p></p>
+            <ol>
+                <li>Note that the required volume <b><i>MUST</i></b> be in liters</li>
+                <li>For STEEL tank, unit length is 1.22m, while for GRP tank, unit length is 1m</li>
+                <li>Only Nigerian users should use the quick quote at the first page as this has been configured in NGN only</li>
+                <li>The first quote is for engineers looking to get a quick quotation for their client or for best dimension to use</li>
+                <li>It can only work with volumes greater than or equal to 4000l</li>
+                <li>Nigerian users can also use the comprehensive quotation after signing up</li>
+            </ol>
+            <a href="/about"><button class="btn btn-primary">Continue reading</button></a>
+        </div>
+
+        <div class="col-md-1">
+        </div>
+
+        <div class="col-md-6">
+             <h3>Welcome ! </h3>
+            <small><b><i>Click on admin if you are a non-Nigerian user</i></b></small>
+            <hr>
+
+            <p>Let's get you a quote <span><b><i>(For Nigerian users only)</i></b></span></p>
+            <form method="POST" action="">
+                  <div class="form-group me">
+                      {{render_field(form.name, class_="form-control", value=request.form.name)}}
+                  </div>
+                   <div class="form-group me">
+                      {{render_field(form.email, class_="form-control", value=request.form.email)}}
+                  </div>
+                  <div class="form-group me">
+                      {{render_field(form.volume , class_="form-control", value=request.form.volume)}}
+                  </div>
+                  <div class="form-group me">
+            <!--          {{form.type_of_tank.label}}-->
+                      {{render_field(form.type_of_tank, class_="form-control")}}
+                  </div>
+                  <div class="form-group text-center me">
+                    <input type="submit" value="Get Quotation" class="btn btn-primary">
+                  </div>
+            </form>
+        </div>
+        {% else %}
+            <p style="padding-top:70px;">You are logged in . </p>
+            <p style="padding-bottom:100px;">Kindly use the get_admin_quotation  . </p>
+        {% endif %}
+    </div>
+
+{% endblock %}

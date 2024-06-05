@@ -1,0 +1,12 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<body>
+        <div>Are you sure you want to log out</div>
+        <a href="{{url_for('logout')}}" class="btn btn-primary">Yes</a> <a href="{{url_for('admin_page')}}" class="btn btn-primary">No</a>
+</body>
+
+
+{% endblock %}
+

@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    {% from '_formhelpers.html' import render_field %}
+    <br/>
+    <p>Check out your most preferred dimension here</p>
+    <p></p>
+
+    <p>{{session['params']}}</p>
+
+
+             <div class="row col-md-12">
+        <div>
+            <p></p>
+            <table class="table table-bordered">
+
+                <thead>
+                    <tr>
+                        <td>Length</td>
+                        <td>Breadth</td>
+                        <td>Height</td>
+                        <td>Volume</td>
+                        <td>Number of Panels</td>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        {% for param in session['params'] %}
+                                <th>{{param[0]}}</th>
+                                <th>{{param[1]}}</th>
+                                <th>{{param[2]}}</th>
+                                <th>{{param[3]}}</th>
+                                <th>{{param[4]}}</th>
+
+                                <th><a id="" href={{url_for("preferred_quote", param=param)}} class="btn btn-primary">Use</a></th>
+
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}

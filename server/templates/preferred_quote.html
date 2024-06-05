@@ -1,0 +1,169 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    <br/>
+    <p>If you are not satisfied with the dimension in the quote, click for <a href="/more_volume"><button class="btn btn-primary">More Dimension</button></a></p>
+    {% if session.logged_in or session.confirmed %}
+    <br/>
+        <p>Country quotation is to be sent to : {{country}} <b>Logistics: {{transport}}</b></p>
+        <p>You are converting from {{quote_country}} to {{country}} at {{convert_to_usd * required_currency}} rate</p>
+        <p><i><b>NOTE: We strongly advise you to check/update the prices before completing the Quote</b></i> <a class="case" href="/admin_page"><button class="btn btn-primary">Edit Parameters</button></a></p>
+
+    {% else %}
+        <p>Click on the admin button and login to modify the parameters used for the calculation {{second_desc}}</p>
+        <p></p>
+
+    {% endif %}
+
+    <p></p>
+    <hr>
+    <div id="content"><!--for printing -->
+<!--    put image here-->
+        <div class="row col-md-12">
+            {% if session['logged_in'] or session['confirmed'] and logo %}
+                <div class="col-md-5">
+                   <img src="{{url_for('static', filename='/uploads/' + logo)}}" class="defaultLogo" title="Company logo">
+                </div>
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-5">
+                    <p class="textcolor"> {{c_name}}</p>
+                   <p class="textcolor"> COMPANY ADDRESS : {{c_address}}</p>
+                </div>
+            {% else %}
+                <div class="col-md-5">
+                    <img src="{{url_for('static', filename='quoteLogo.PNG')}}" class="defaultLogo" title="Customize your company logo">
+                </div>
+                <div class="col-md-2">
+                </div>
+                <div class="col-md-5">
+                   <p>Kindly sign up to get a comprehensive Quotation</p>
+                </div>
+            {% endif %}
+        </div>
+
+       <table class="table table-bordered">
+           <thead>
+                <tr>
+                    <th class="center" colspan="5">QUOTATION</th>
+                </tr>
+           </thead>
+           <tbody>
+                <tr>
+                    <th colspan="3">Attn &nbsp; : {{name}} <br/> {{company}} <br/> {{address}} <br> {{email}} <br/> {{mobile}}</th>
+                    <th colspan="2">Date: {{data.date}}</th>
+                </tr>
+                <tr hidden>
+                    <th><input type="hidden" name="" value="{{get_updated_prices['height_1m']}}" id="height_1m"></th>
+                    <th><input type="hidden" name="" value="{{get_updated_prices['height_2m']}}" id="height_2m"></th>
+                    <th><input type="hidden" name="" value="{{get_updated_prices['height_3m']}}" id="height_3m"></th>
+                    <th><input type="hidden" name="" value="{{get_updated_prices['height_4m']}}" id="height_4m"></th>
+                    <th><input type="hidden" name="" value="{{get_updated_prices['unit_price']}}" id="unitPrice"></th>
+                    <th><input type="hidden" name="" value="{{length_p}}" id="length"></th>
+                    <th><input type="hidden" name="" value="{{breadth_p}}" id="breadth"></th>
+                    <th><input type="hidden" name="" value="{{vol_p}}" id="vol"></th>
+                    <th><input type="hidden" name="" value="{{n_panels_p}}" id="bestDimension"></th>
+                    <th><input type="hidden" name="" value="{{result['vat']}}" id="vat_"></th>
+                    <th><input type="hidden" name="" value="{{currency_code}}" id="code"></th>
+                    <th><input type="hidden" name="" value="{{desc}}" id="param_desc"></th>
+                    <th><input type="hidden" name="" value="{{height_2}}" id="height_2"></th>
+                    <th><input type="hidden" name="" value="{{height_p}}" id="height"></th>
+                    <th><input type="hidden" name="" value="0" id="second_desc"></th>
+
+                     {% if session.logged_in or session.confirmed %}
+                        <th><input type="hidden" name="" value="{{transport * convert_to_usd * required_currency}}" class="transportVal"></th>
+                    {% else %}
+                        <th><input type="hidden" name="" value="0" class="transportVal"></th>
+                    {% endif %}
+                    <th><input type="hidden" name="" value="{{get_updated_prices['installation_price'] }}" id="installPriceGrp"></th>
+                    <th><input type="hidden" name="" value="{{get_updated_prices['installation_price'] }}" id="installPriceStl"></th>
+                </tr>
+
+                <tr>
+                    <th class="center" colspan="5">Supply and Installation of <span id="getTankType">{{type_of_tank}}</span> tank</th>
+                </tr>
+                <tr>
+    <!--                Intentionally left for space-->
+                </tr>
+                <tr>
+                    <th scope="col">S/N</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">QTY</th>
+                    <th scope="col">UnitPrice</th>
+                    <th scope="col">Amount</th>
+                </tr>
+                <tr>
+                    <th>1</th>
+                    <th><span id="desc"></span>
+                                <br> Volume required in litres: <span id="panel">&nbsp;{{vol_p * 1000 }}</span>
+                                <br> Height of : <span id="height_p">{{height_p}}</span></th>
+                    <th>1</th>
+
+                    <th>&#{{currency_html}};<span id="price"></span></th>
+                    <th>&#{{currency_html}};<span id="amount"></span></th>
+                </tr>
+                <tr>
+                    <th>2</th>
+                    <th>Installation</th>
+                    <th>1</th>
+
+                    <th>&#{{currency_html}}<span id="installPrice"></span></th>
+                    <th>&#{{currency_html}}<span id="installAmount"></span></th>
+
+                </tr>
+                    {% if session.logged_in or session.confirmed %}
+                <tr>
+                    <th class="center" colspan="4">Transportation</th>
+                    <th>&#{{currency_html}}<span id="transport"></span></th>
+                </tr>
+                {% endif %}
+                <tr>
+                    <th class="center" colspan="4">Subtotal</th>
+                    <th>&#{{currency_html}}<span id="subtotal"></span></th>
+                </tr>
+                <tr>
+                    <th class="center" colspan="4">Vat @ {{result['vat']*100}}%</th>
+                    <th>&#{{currency_html}}<span id="vat"></span></th>
+                </tr>
+                <tr>
+                    <th class="center" colspan="4">Total</th>
+                    <th>&#{{currency_html}}<span id="total"></span></th>
+                </tr>
+                <tr>
+                    <th class="center" colspan="5" id="word"></th>
+                </tr>
+           </tbody>
+       </table>
+        <p><i><b id="note"></b></i></p>
+    {% if session.logged_in or session.confirmed %}
+         <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th colspan="6" id="validityVal">Quote is valid for : {{validity}}</th>
+                </tr>
+                <tr>
+                    <th colspan="6" id="paymentVal"><b>PAYMENT TERMS: 100% Payment with order</b></th>
+                </tr>
+                <tr>
+                   <th colspan="6" id="bankDetailsVal">Account Details: {{bank_details}}</th>
+                </tr>
+                <tr>
+                    <th colspan="6" id="install">Delivery & Installation: {{delivery_installation}}</th>
+                </tr>
+                <tr>
+                   <th colspan="6"><b><i>for : {{c_name}}</i></b></th>
+                </tr>
+                <tr>
+                    <th colspan="6">Signed by: Head Engineering Services {{signatory}}</th>
+                </tr>
+            </tbody>
+        </table>
+    </div><!--for printing -->
+
+     <div class="center">
+        <button id="btnPrintQuote" class="btn btn-primary">Download Quote</button>
+    </div>
+
+    {% endif %}
+</div>
+{% endblock %}

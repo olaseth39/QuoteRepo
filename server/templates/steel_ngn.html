@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<br>
+
+<p> STEEL NGN DETAILS </p><br>
+
+        <div class="row col-md-2">
+                <table class="table table-bordered">
+                    <thead>
+                       {% for detail in result[0] %}
+                          <td>{{detail}}</td>
+                       {% endfor %}
+                    </thead>
+                    <tbody>
+                        <tr>
+                            {% for detail in result %}
+                                {% for key, value in detail.items() %}
+                                <th>{{value}}</th>
+                                {% endfor %}
+                                <th><a href={{url_for("edit_tank_ngn", tank=tank, table=table)}} class="btn btn-danger">Edit</a></th>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+        </div>
+
+{% endblock %}

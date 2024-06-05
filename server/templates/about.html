@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+{% block body %}
+    {% from '_formhelpers.html' import render_field %}
+
+    <div class="row col-md-12">
+
+        <div class="col-md-6">
+            <pre><b>Kindly read through !!!</b></pre>
+            Thank you for using Quotation Formulator. The whole idea is to create a seamless quotation(GRP & STEEL tanks)
+            with no need of racking ones brain for best price dimension(s). You are implored to read through this
+            guard to best use of the application. The whole quotation set is so sensitive that it gives the dimension(s)
+            for the best price as in number of panels for STEEL tanks and height for GRP tanks. There are some instances
+            where more than one dimension gives the best dimension. The set-up is sensitive and sophisticated enough to
+            suggest the better/best as the case may be, in terms of space. However, it is up to the user to chose between
+            the suggested dimension by the set-up and the alternative dimension as given on the top of the quote where it
+            applicable. Not in all cases will you have exactly the volume you have entered. The set-up will give the closest
+            value higher than the required volume where the required volume is not feasible to come by. You can reduce the
+            input volume if you want something lower than the volume you want.
+            <p></p>
+            <ol>
+                <li>Note that the required volume <b><i>MUST</i></b> be in liters</li>
+                <li>For STEEL tank, unit length is 1.22m, while for GRP tank, unit length is 1m</li>
+                <li>Only Nigerian users should use the quick quote at the first page as this has been configured in NGN only</li>
+                <li>The first quote is for engineers looking to get a quick quotation for their client or for best dimension to use</li>
+            </ol>
+
+        </div>
+
+        
+        <div class="col-md-6">
+            <img src="static/uploads/tankimage3.jpg" alt="Tank Image" class="tankimage">
+        </div>
+
+    </div>
+
+{% endblock %}
